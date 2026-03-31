@@ -1,0 +1,874 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat&aacute;logo | Amada Crochet</title>
+    <meta name="description" content="Explora nuestro cat&aacute;logo de creaciones artesanales en crochet. Vestidos de ba&ntilde;o, vestidos de ni&ntilde;as, balacas, zapaticos de beb&eacute; y m&aacute;s.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos especÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­ficos del catÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡logo */
+        .catalog-hero {
+            padding: var(--spacing-xxl) var(--spacing-md);
+            text-align: center;
+            background: linear-gradient(
+                180deg,
+                rgba(248, 200, 216, 0.1) 0%,
+                transparent 100%
+            );
+        }
+
+        .catalog-title {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            color: var(--color-text);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .catalog-subtitle {
+            font-family: var(--font-display);
+            font-style: italic;
+            color: var(--color-gold);
+            font-size: 1.2rem;
+        }
+
+        .catalog-filter {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+            padding: 0 var(--spacing-md);
+        }
+
+        .filter-btn {
+            padding: var(--spacing-xs) var(--spacing-md);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            color: var(--color-text-light);
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--color-gold);
+            color: var(--color-white);
+            border-color: var(--color-gold);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            padding: 0 var(--spacing-md);
+        }
+
+        .product-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all var(--transition-smooth);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.15s; }
+        .product-card:nth-child(3) { animation-delay: 0.2s; }
+        .product-card:nth-child(4) { animation-delay: 0.25s; }
+        .product-card:nth-child(5) { animation-delay: 0.3s; }
+        .product-card:nth-child(6) { animation-delay: 0.35s; }
+        .product-card:nth-child(7) { animation-delay: 0.4s; }
+        .product-card:nth-child(8) { animation-delay: 0.45s; }
+        .product-card:nth-child(9) { animation-delay: 0.5s; }
+        .product-card:nth-child(10) { animation-delay: 0.55s; }
+        .product-card:nth-child(11) { animation-delay: 0.6s; }
+        .product-card:nth-child(12) { animation-delay: 0.65s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            background: var(--glass-bg-solid);
+        }
+
+        .product-image {
+            position: relative;
+            aspect-ratio: 1;
+            background: linear-gradient(
+                135deg,
+                rgba(248, 200, 216, 0.2) 0%,
+                rgba(197, 160, 40, 0.1) 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image i {
+            width: 64px;
+            height: 64px;
+            color: var(--color-rose-dark);
+            opacity: 0.5;
+            transition: all var(--transition-smooth);
+        }
+
+        .product-card:hover .product-image i {
+            transform: scale(1.1);
+            opacity: 0.7;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--color-rose-pastel), var(--color-gold-light));
+            color: var(--color-white);
+            border-radius: 15px;
+        }
+
+        .product-badge.special {
+            background: linear-gradient(135deg, #ff6b6b, var(--color-rose-dark));
+        }
+
+        .product-info {
+            padding: var(--spacing-md);
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            color: var(--color-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .product-name {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.5;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .product-price {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--color-gold);
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--color-gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-lg);
+            transition: all var(--transition-fast);
+        }
+
+        .back-link:hover {
+            color: var(--color-rose-dark);
+        }
+
+        .back-link i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Responsive */
+        @media (max-width: 767px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-info {
+                padding: var(--spacing-sm);
+            }
+
+            .product-name {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo con PatrÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n -->
+    <div class="background-pattern"></div>
+
+    <!-- Icono del Carrito -->
+    <button class="cart-icon" id="cart-toggle" aria-label="Abrir carrito">
+        <i data-lucide="shopping-bag"></i>
+        <span class="cart-count" id="cart-count">0</span>
+    </button>
+
+    <!-- Overlay del Carrito -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <!-- Panel del Carrito -->
+    <aside class="cart-panel" id="cart-panel">
+        <header class="cart-header">
+            <h2 class="cart-title">
+                <i data-lucide="shopping-bag"></i>
+                Tu Carrito
+            </h2>
+            <button class="cart-close" id="cart-close" aria-label="Cerrar carrito">
+                <i data-lucide="x"></i>
+            </button>
+        </header>
+
+        <div class="cart-items" id="cart-items">
+            <!-- Los items se agregan dinÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡micamente -->
+            <div class="cart-empty" id="cart-empty">
+                <i data-lucide="shopping-bag"></i>
+                <p class="cart-empty-text">Tu carrito est&aacute; vac&iacute;o</p>
+                <p style="font-size: 0.9rem; color: var(--color-text-light); margin-top: var(--spacing-sm);">&iexcl;Explora nuestros productos y agrega tus favoritos!</p>
+            </div>
+        </div>
+
+        <footer class="cart-footer">
+            <div class="cart-subtotal">
+                <span class="cart-subtotal-label">Subtotal</span>
+                <span class="cart-subtotal-value" id="cart-total">$0</span>
+            </div>
+            <button class="cart-checkout-btn" id="checkout-btn" disabled>
+                <i data-lucide="message-circle" style="width: 20px; height: 20px;"></i>
+                Pedir por WhatsApp
+            </button>
+            <a href="index.html" class="cart-continue">&larr; Continuar explorando</a>
+        </footer>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <!-- Hero del CatÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡logo -->
+        <section class="catalog-hero">
+            <a href="index.html" class="back-link">
+                <i data-lucide="arrow-left"></i>
+                Volver al inicio
+            </a>
+            <h1 class="catalog-title">
+                <span class="title-decoration">&#10022;</span>
+                Nuestro Cat&aacute;logo
+                <span class="title-decoration">&#10022;</span>
+            </h1>
+            <p class="catalog-subtitle">Piezas &uacute;nicas tejidas con amor</p>
+        </section>
+
+        <!-- Filtros -->
+        <section class="catalog-filter">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="mujer">Mujer</button>
+            <button class="filter-btn" data-filter="nina">Ni&ntilde;as</button>
+            <button class="filter-btn" data-filter="bebe">Beb&eacute;</button>
+            <button class="filter-btn" data-filter="hogar">Hogar</button>
+            <button class="filter-btn" data-filter="mascota">Mascotas</button>
+        </section>
+
+        <!-- Grid de Productos -->
+        <section class="container">
+            <div class="products-grid" id="products-grid">
+
+                <!-- Vestidos de Ba&ntilde;o 1 -->
+                <article class="product-card" data-category="mujer" data-id="vb-1" data-name="Vestido Playa Caribe" data-price="85000" data-icon="sparkles">
+                    <div class="product-image">
+                        <i data-lucide="sparkles"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Vestidos de Ba&ntilde;o</span>
+                        <h3 class="product-name">Vestido Playa Caribe</h3>
+                        <p class="product-description">Vestido de ba&ntilde;o elegante con detalles en crochet dorado. Perfecto para lucir en la playa.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$85.000</span>
+                            <button class="add-to-cart-btn" data-id="vb-1">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Vestidos de Ba&ntilde;o 2 -->
+                <article class="product-card" data-category="mujer" data-id="vb-2" data-name="Vestido Arena Dorada" data-price="95000" data-icon="sparkles">
+                    <div class="product-image">
+                        <i data-lucide="sparkles"></i>
+                        <span class="product-badge">Popular</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Vestidos de Ba&ntilde;o</span>
+                        <h3 class="product-name">Vestido Arena Dorada</h3>
+                        <p class="product-description">Dise&ntilde;o exclusivo con tonos dorados y rosados. Tejido fino y elegante.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$95.000</span>
+                            <button class="add-to-cart-btn" data-id="vb-2">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Vestidos de Ni&ntilde;as 1 -->
+                <article class="product-card" data-category="nina" data-id="vn-1" data-name="Vestido Princesa Rosa" data-price="65000" data-icon="heart">
+                    <div class="product-image">
+                        <i data-lucide="heart"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Vestidos de Ni&ntilde;as</span>
+                        <h3 class="product-name">Vestido Princesa Rosa</h3>
+                        <p class="product-description">Vestido tierno y c&oacute;modo para las peque&ntilde;as. Colores pastel suaves.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$65.000</span>
+                            <button class="add-to-cart-btn" data-id="vn-1">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Vestidos de Ni&ntilde;as 2 -->
+                <article class="product-card" data-category="nina" data-id="vn-2" data-name="Vestido Hada del Bosque" data-price="75000" data-icon="heart">
+                    <div class="product-image">
+                        <i data-lucide="heart"></i>
+                        <span class="product-badge">Nuevo</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Vestidos de Ni&ntilde;as</span>
+                        <h3 class="product-name">Vestido Hada del Bosque</h3>
+                        <p class="product-description">Dise&ntilde;o m&aacute;gico con detalles florales. Perfecto para ocasiones especiales.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$75.000</span>
+                            <button class="add-to-cart-btn" data-id="vn-2">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Balacas 1 -->
+                <article class="product-card" data-category="mujer" data-id="bl-1" data-name="Balaca Girasol" data-price="35000" data-icon="flower-2">
+                    <div class="product-image">
+                        <i data-lucide="flower-2"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Balacas</span>
+                        <h3 class="product-name">Balaca Girasol</h3>
+                        <p class="product-description">Balaca artesanal con dise&ntilde;o de girasol. A&ntilde;ade un toque especial a cualquier outfit.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$35.000</span>
+                            <button class="add-to-cart-btn" data-id="bl-1">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Balacas 2 -->
+                <article class="product-card" data-category="mujer" data-id="bl-2" data-name="Balaca Rosa Vintage" data-price="40000" data-icon="flower-2">
+                    <div class="product-image">
+                        <i data-lucide="flower-2"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Balacas</span>
+                        <h3 class="product-name">Balaca Rosa Vintage</h3>
+                        <p class="product-description">Dise&ntilde;o cl&aacute;sico con flores en relieve. Elegancia atemporal.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$40.000</span>
+                            <button class="add-to-cart-btn" data-id="bl-2">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Zapaticos de Beb&eacute; 1 -->
+                <article class="product-card" data-category="bebe" data-id="zb-1" data-name="Zapaticos Nube Suave" data-price="28000" data-icon="baby">
+                    <div class="product-image">
+                        <i data-lucide="baby"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Zapaticos de Beb&eacute;</span>
+                        <h3 class="product-name">Zapaticos Nube Suave</h3>
+                        <p class="product-description">Suaves y c&aacute;lidos para los primeros pasos. Dise&ntilde;o adorable en blanco.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$28.000</span>
+                            <button class="add-to-cart-btn" data-id="zb-1">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Zapaticos de Beb&eacute; 2 -->
+                <article class="product-card" data-category="bebe" data-id="zb-2" data-name="Zapaticos Osito" data-price="32000" data-icon="baby">
+                    <div class="product-image">
+                        <i data-lucide="baby"></i>
+                        <span class="product-badge">Adorable</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Zapaticos de Beb&eacute;</span>
+                        <h3 class="product-name">Zapaticos Osito</h3>
+                        <p class="product-description">Con carita de osito. La combinaci&oacute;n perfecta de ternura y calidez.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$32.000</span>
+                            <button class="add-to-cart-btn" data-id="zb-2">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Decoraci&oacute;n - Coj&iacute;n -->
+                <article class="product-card" data-category="hogar" data-id="dc-1" data-name="Florero Artesanal" data-price="55000" data-icon="flower-vase">
+                    <div class="product-image">
+                        <i data-lucide="flower-vase"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Decoraci&oacute;n</span>
+                        <h3 class="product-name">Florero Artesanal</h3>
+                        <p class="product-description">Florero tejido a mano. Aporta calidez y estilo a cualquier espacio.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$55.000</span>
+                            <button class="add-to-cart-btn" data-id="dc-1">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Decoraci&oacute;n - Coj&iacute;n -->
+                <article class="product-card" data-category="hogar" data-id="dc-2" data-name="Coj&iacute;n Bohemio" data-price="45000" data-icon="home">
+                    <div class="product-image">
+                        <i data-lucide="home"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Decoraci&oacute;n</span>
+                        <h3 class="product-name">Coj&iacute;n Bohemio</h3>
+                        <p class="product-description">Coj&iacute;n con funda de crochet. Dise&ntilde;o bohemio y acogedor.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$45.000</span>
+                            <button class="add-to-cart-btn" data-id="dc-2">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Mascota - Traje Luffy -->
+                <article class="product-card" data-category="mascota" data-id="mc-1" data-name="Trajecito Luffy One Piece" data-price="95000" data-icon="cat">
+                    <div class="product-image">
+                        <i data-lucide="cat"></i>
+                        <span class="product-badge special">Especial</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Mascotas</span>
+                        <h3 class="product-name">Trajecito Luffy One Piece</h3>
+                        <p class="product-description">Traje inspirado en Luffy de One Piece para tu mascota. &iexcl;El regalo perfecto para fans del anime!</p>
+                        <div class="product-footer">
+                            <span class="product-price">$95.000</span>
+                            <button class="add-to-cart-btn" data-id="mc-1">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Mascota - Accesorios -->
+                <article class="product-card" data-category="mascota" data-id="mc-2" data-name="Bandana Perruna" data-price="30000" data-icon="dog">
+                    <div class="product-image">
+                        <i data-lucide="dog"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Mascotas</span>
+                        <h3 class="product-name">Bandana Perruna</h3>
+                        <p class="product-description">Bandana de crochet para tu peludo amigo. Dise&ntilde;os personalizables.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$30.000</span>
+                            <button class="add-to-cart-btn" data-id="mc-2">
+                                <i data-lucide="plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- Espacio adicional antes del footer -->
+        <div style="height: var(--spacing-xxl);"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <h3 class="footer-logo">
+                        <span class="logo-main">Amada</span>
+                        <span class="logo-accent">Crochet</span>
+                    </h3>
+                    <p class="footer-description">
+                        Creaciones artesanales tejidas con amor y dedicaci&oacute;n.
+                        Cada pieza es &uacute;nica, hecha especialmente para ti.
+                    </p>
+                </div>
+
+                <div class="footer-links-section">
+                    <h4>Navegaci&oacute;n</h4>
+                    <ul class="footer-nav">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="index.html#intro">Nosotros</a></li>
+                        <li><a href="index.html#gallery">Creaciones</a></li>
+                        <li><a href="index.html#values">Valores</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Cont&aacute;ctanos</h4>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i data-lucide="instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <i data-lucide="message-circle"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Email">
+                            <i data-lucide="mail"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-legal">
+                <div class="legal-links">
+                    <a href="#" class="legal-link">T&eacute;rminos y Condiciones</a>
+                    <span class="legal-separator">|</span>
+                    <a href="#" class="legal-link">Pol&iacute;tica de Privacidad</a>
+                    <span class="legal-separator">|</span>
+                    <a href="#" class="legal-link">Pol&iacute;tica de Env&iacute;os</a>
+                    <span class="legal-separator">|</span>
+                    <a href="#" class="legal-link">Devoluciones</a>
+                </div>
+                <p class="footer-copyright">
+                    &copy; 2024 Amada Crochet. Todos los derechos reservados.
+                    Hecho con <span class="heart">&hearts;</span> y mucho hilo.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===========================================
+        // Sistema de Carrito de Compras
+        // ===========================================
+
+        class ShoppingCart {
+            constructor() {
+                this.items = [];
+                this.loadFromStorage();
+            }
+
+            loadFromStorage() {
+                const saved = localStorage.getItem('amadaCrochetCart');
+                if (saved) {
+                    this.items = JSON.parse(saved);
+                }
+            }
+
+            saveToStorage() {
+                localStorage.setItem('amadaCrochetCart', JSON.stringify(this.items));
+            }
+
+            addItem(id, name, price, icon) {
+                const existingItem = this.items.find(item => item.id === id);
+
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    this.items.push({ id, name, price, icon, quantity: 1 });
+                }
+
+                this.saveToStorage();
+                this.updateUI();
+            }
+
+            removeItem(id) {
+                this.items = this.items.filter(item => item.id !== id);
+                this.saveToStorage();
+                this.updateUI();
+            }
+
+            updateQuantity(id, change) {
+                const item = this.items.find(item => item.id === id);
+                if (item) {
+                    item.quantity += change;
+                    if (item.quantity <= 0) {
+                        this.removeItem(id);
+                    } else {
+                        this.saveToStorage();
+                        this.updateUI();
+                    }
+                }
+            }
+
+            getTotal() {
+                return this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+            }
+
+            getCount() {
+                return this.items.reduce((count, item) => count + item.quantity, 0);
+            }
+
+            buildWhatsAppMessage() {
+                const lines = [
+                    'Hola, quiero hacer este pedido de Amada Crochet:',
+                    '',
+                ];
+
+                this.items.forEach(item => {
+                    lines.push(`- ${item.name} x${item.quantity} - $${(item.price * item.quantity).toLocaleString()}`);
+                });
+
+                lines.push('');
+                lines.push(`Total: $${this.getTotal().toLocaleString()}`);
+                lines.push('Quedo atenta a disponibilidad y datos de entrega.'); 
+
+                return lines.join('\n');
+            }
+
+            sendToWhatsApp() {
+                if (!this.items.length) return;
+
+                const whatsappNumber = '573000000000';
+                const message = encodeURIComponent(this.buildWhatsAppMessage());
+                const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+                window.open(url, '_blank', 'noopener');
+            }
+
+            updateUI() {
+                // Actualizar contador
+                const countEl = document.getElementById('cart-count');
+                const count = this.getCount();
+                countEl.textContent = count;
+                countEl.classList.toggle('visible', count > 0);
+
+                // Actualizar total
+                const totalEl = document.getElementById('cart-total');
+                totalEl.textContent = `$${this.getTotal().toLocaleString()}`;
+
+                // Actualizar items en el panel
+                const itemsContainer = document.getElementById('cart-items');
+                const emptyMessage = document.getElementById('cart-empty');
+
+                if (this.items.length === 0) {
+                    emptyMessage.style.display = 'flex';
+                    itemsContainer.querySelectorAll('.cart-item').forEach(el => el.remove());
+                } else {
+                    emptyMessage.style.display = 'none';
+                    this.renderItems(itemsContainer);
+                }
+
+                // Actualizar botÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n de checkout
+                const checkoutBtn = document.getElementById('checkout-btn');
+                checkoutBtn.disabled = this.items.length === 0;
+            }
+
+            renderItems(container) {
+                // Remover items anteriores
+                container.querySelectorAll('.cart-item').forEach(el => el.remove());
+
+                // Renderizar cada item
+                this.items.forEach(item => {
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'cart-item';
+                    itemEl.innerHTML = `
+                        <div class="cart-item-image">
+                            <i data-lucide="${item.icon}"></i>
+                        </div>
+                        <div class="cart-item-info">
+                            <span class="cart-item-category">Producto</span>
+                            <h4 class="cart-item-name">${item.name}</h4>
+                            <span class="cart-item-price">$${item.price.toLocaleString()}</span>
+                            <div class="cart-item-quantity">
+                                <button class="cart-qty-btn" data-action="decrease" data-id="${item.id}">&minus;</button>
+                                <span class="cart-qty-value">${item.quantity}</span>
+                                <button class="cart-qty-btn" data-action="increase" data-id="${item.id}">+</button>
+                            </div>
+                        </div>
+                        <button class="cart-item-remove" data-id="${item.id}" aria-label="Eliminar">
+                            <i data-lucide="trash-2"></i>
+                        </button>
+                    `;
+                    container.appendChild(itemEl);
+                });
+
+                // Reinicializar iconos Lucide
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+
+                // Agregar event listeners para los botones de cantidad
+                container.querySelectorAll('.cart-qty-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.target.dataset.id;
+                        const action = e.target.dataset.action;
+                        this.updateQuantity(id, action === 'increase' ? 1 : -1);
+                    });
+                });
+
+                // Agregar event listeners para eliminar
+                container.querySelectorAll('.cart-item-remove').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.currentTarget.dataset.id;
+                        this.removeItem(id);
+                    });
+                });
+            }
+        }
+
+        // Inicializar carrito
+        const cart = new ShoppingCart();
+
+        // Inicializar Lucide Icons
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
+            // Actualizar UI del carrito
+            cart.updateUI();
+
+            // Funcionalidad de filtros
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filter = this.dataset.filter;
+
+                    productCards.forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Botones de agregar al carrito
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.product-card');
+                    const id = card.dataset.id;
+                    const name = card.dataset.name;
+                    const price = parseInt(card.dataset.price);
+                    const icon = card.dataset.icon;
+
+                    cart.addItem(id, name, price, icon);
+
+                    // Efecto visual de agregado
+                    this.classList.add('added');
+                    this.innerHTML = '<i data-lucide="check"></i> Agregado';
+                    lucide.createIcons();
+
+                    setTimeout(() => {
+                        this.classList.remove('added');
+                        this.innerHTML = '<i data-lucide="plus"></i> Agregar';
+                        lucide.createIcons();
+                    }, 1500);
+                });
+            });
+
+            // Toggle del panel del carrito
+            const cartToggle = document.getElementById('cart-toggle');
+            const cartPanel = document.getElementById('cart-panel');
+            const cartOverlay = document.getElementById('cart-overlay');
+            const cartClose = document.getElementById('cart-close');
+
+            function openCart() {
+                cartPanel.classList.add('open');
+                cartOverlay.classList.add('visible');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeCart() {
+                cartPanel.classList.remove('open');
+                cartOverlay.classList.remove('visible');
+                document.body.style.overflow = '';
+            }
+
+            cartToggle.addEventListener('click', openCart);
+            cartClose.addEventListener('click', closeCart);
+            cartOverlay.addEventListener('click', closeCart);
+
+            const checkoutBtn = document.getElementById('checkout-btn');
+            checkoutBtn.addEventListener('click', () => {
+                cart.sendToWhatsApp();
+            });
+
+            // Cerrar con ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeCart();
+            });
+        });
+    </script>
+</body>
+</html>
+
