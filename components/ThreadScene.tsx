@@ -42,13 +42,12 @@ function pathFromPoints(points: Point[]) {
       continue;
     }
 
-    const cp1x = p1.x + (p2.x - p0.x) / 6;
-    const cp1y = p1.y + (p2.y - p0.y) / 6;
-    const cp2x = p2.x - (p3.x - p1.x) / 6;
-    const cp2y = p2.y - (p3.y - p1.y) / 6;
-    d += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(
-      1
-    )}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+    const tension = 0.22;
+    const cp1x = p1.x + (p2.x - p0.x) * tension;
+    const cp1y = p1.y + (p2.y - p0.y) * tension;
+    const cp2x = p2.x - (p3.x - p1.x) * tension;
+    const cp2y = p2.y - (p3.y - p1.y) * tension;
+    d += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
   }
   return d;
 }
@@ -56,18 +55,12 @@ function pathFromPoints(points: Point[]) {
 function buildWaypoints() {
   const sphere = rectFor("yarn-sphere");
   const intro = rectFor("intro");
-  const motherPhoto = rectFor("mother-photo");
-  const motherCopy = rectFor("mother-copy");
-  const storyProcess = rectFor("story-process");
   const categories = rectFor("categories");
-  const collectionHeading = rectFor("collection-heading");
-  const craftGrid = rectFor("craft-grid");
-  const craftWoman = rectFor("craft-mujer");
-  const craftGirl = rectFor("craft-nina");
-  const craftBags = rectFor("craft-bolsos");
   const promo = rectFor("promo");
-  const promoContent = rectFor("promo-content");
+  const editorial = rectFor("editorial");
+  const custom = rectFor("custom-order");
   const cta = rectFor("cta-button");
+  const storyPhoto = rectFor("mother-photo");
   const threadOrigin = rectFor("thread-origin");
   if (!sphere || !intro || !cta) return [];
 
@@ -75,80 +68,70 @@ function buildWaypoints() {
   const startX = threadOrigin?.centerX ?? sphere.centerX;
   const startY = threadOrigin?.centerY ?? sphere.centerY;
   const mobile = window.innerWidth <= 767;
-  const photoBlock = motherPhoto ?? intro;
-  const copyBlock = motherCopy ?? intro;
-  const processBlock = storyProcess ?? copyBlock;
-  const headingBlock = collectionHeading ?? categories ?? intro;
-  const gridBlock = craftGrid ?? categories ?? headingBlock;
-  const leftCraft = craftWoman ?? gridBlock;
-  const centerCraft = craftGirl ?? gridBlock;
-  const rightCraft = craftBags ?? gridBlock;
-  const promoBlock = promo ?? gridBlock;
-  const promoInfo = promoContent ?? promoBlock;
+  const categoryBlock = categories ?? intro;
+  const promoBlock = promo ?? categoryBlock;
+  const editorialBlock = editorial ?? promoBlock;
+  const customBlock = custom ?? editorialBlock;
 
   if (mobile) {
-    const laneX = clampX(width * 0.56, width, 24);
-    const leftSweepX = clampX(photoBlock.left - 26, width, 20);
-    const centerSweepX = clampX(width * 0.52, width, 20);
-    const lowerCenterX = clampX(width * 0.5, width, 20);
-    const rightSweepX = clampX(rightCraft.right - rightCraft.width * 0.22, width, 20);
+    const leftLane = clampX(width * 0.29, width, 18);
+    const centerLane = clampX(width * 0.5, width, 18);
+    const rightLane = clampX(width * 0.71, width, 18);
+    const heroExitY = intro.top - Math.min(104, window.innerHeight * 0.12);
 
     return [
-      { x: startX, y: startY, line: true },
-      { x: startX, y: startY + 30, line: true },
-      { x: laneX, y: intro.top + intro.height * 0.1 },
-      { x: leftSweepX, y: photoBlock.top + photoBlock.height * 0.16 },
-      { x: leftSweepX, y: photoBlock.centerY + photoBlock.height * 0.12 },
-      { x: centerSweepX, y: processBlock.top + processBlock.height * 0.52 },
-      { x: lowerCenterX, y: processBlock.bottom + 18 },
-      { x: clampX(leftCraft.left + leftCraft.width * 0.18, width, 20), y: gridBlock.top + gridBlock.height * 0.2 },
-      { x: clampX(leftCraft.left + leftCraft.width * 0.2, width, 20), y: gridBlock.bottom - gridBlock.height * 0.14 },
-      { x: lowerCenterX, y: gridBlock.bottom - gridBlock.height * 0.08 },
-      { x: rightSweepX, y: gridBlock.bottom - gridBlock.height * 0.12 },
-      { x: rightSweepX, y: promoBlock.top + promoBlock.height * 0.22 },
-      { x: laneX, y: promoInfo.top + promoInfo.height * 0.56 },
-      { x: lowerCenterX, y: cta.top - cta.height * 1.12 },
-      { x: cta.centerX, y: cta.top - cta.height * 0.4 },
+      { x: startX, y: startY },
+      { x: centerLane, y: heroExitY },
+      { x: rightLane, y: intro.top + intro.height * 0.18 },
+      { x: centerLane, y: intro.centerY + intro.height * 0.12 },
+      { x: leftLane, y: intro.bottom - intro.height * 0.12 },
+      { x: centerLane, y: intro.bottom + intro.height * 0.12 },
+      { x: rightLane, y: categoryBlock.centerY },
+      { x: centerLane, y: categoryBlock.bottom + categoryBlock.height * 0.12 },
+      { x: leftLane, y: promoBlock.top + promoBlock.height * 0.26 },
+      { x: rightLane, y: promoBlock.bottom - promoBlock.height * 0.1 },
+      { x: leftLane, y: editorialBlock.centerY + editorialBlock.height * 0.08 },
+      { x: centerLane, y: customBlock.top + customBlock.height * 0.2 },
+      { x: leftLane, y: customBlock.bottom - customBlock.height * 0.12 },
+      { x: centerLane, y: cta.top - cta.height * 0.98 },
       { x: cta.centerX, y: cta.centerY },
     ] satisfies Point[];
   }
 
-  const introEntryX = clampX(copyBlock.left + copyBlock.width * 0.2, width);
-  const photoOuterX = clampX(photoBlock.left - photoBlock.width * 0.38, width);
-  const photoMidX = clampX(photoBlock.left - photoBlock.width * 0.22, width);
-  const photoBottomX = clampX(photoBlock.left + photoBlock.width * 0.12, width);
-  const processLeftX = clampX(processBlock.left + processBlock.width * 0.12, width);
-  const processMidX = clampX(processBlock.left + processBlock.width * 0.52, width);
-  const processRightX = clampX(processBlock.right - processBlock.width * 0.14, width);
-  const collectionsEntryX = clampX(centerCraft.centerX + centerCraft.width * 0.08, width);
-  const collectionsLeftX = clampX(leftCraft.left + leftCraft.width * 0.16, width);
-  const collectionsMidX = clampX(centerCraft.centerX, width);
-  const collectionsRightX = clampX(rightCraft.right - rightCraft.width * 0.14, width);
-  const promoRightX = clampX(promoBlock.left + promoBlock.width * 0.64, width);
-  const promoCenterX = clampX(promoInfo.left + promoInfo.width * 0.56, width);
-  const ctaApproachX = clampX(width * 0.5, width);
+  const leftLane = clampX(width * 0.31, width, 24);
+  const leftOuter = storyPhoto ? clampX(storyPhoto.left + storyPhoto.width * 0.08, width, 24) : clampX(width * 0.2, width, 24);
+  const centerLane = clampX(width * 0.5, width, 24);
+  const rightLane = clampX(width * 0.67, width, 24);
+  const topSweep = clampX((centerLane + rightLane) * 0.5, width, 24);
+  const heroExitY = intro.top - Math.min(112, window.innerHeight * 0.12);
+  const heroSoftY = heroExitY + Math.min(36, window.innerHeight * 0.04);
+  const startBendX = startX + (centerLane - startX) * 0.35;
 
   return [
-    { x: startX, y: startY, line: true },
-    { x: startX, y: startY + 42, line: true },
-    { x: clampX(startX - width * 0.03, width), y: startY + 78 },
-    { x: introEntryX, y: intro.top + intro.height * 0.18 },
-    { x: photoOuterX, y: photoBlock.top + photoBlock.height * 0.14 },
-    { x: photoMidX, y: photoBlock.centerY + photoBlock.height * 0.08 },
-    { x: photoBottomX, y: photoBlock.bottom + photoBlock.height * 0.14 },
-    { x: processLeftX, y: processBlock.top + processBlock.height * 0.56 },
-    { x: processMidX, y: processBlock.top + processBlock.height * 0.62 },
-    { x: processRightX, y: processBlock.top + processBlock.height * 0.44 },
-    { x: collectionsEntryX, y: headingBlock.bottom + headingBlock.height * 0.56 },
-    { x: collectionsLeftX, y: gridBlock.top + gridBlock.height * 0.18 },
-    { x: collectionsLeftX, y: gridBlock.bottom - gridBlock.height * 0.12 },
-    { x: collectionsMidX, y: gridBlock.bottom - gridBlock.height * 0.08 },
-    { x: collectionsRightX, y: gridBlock.bottom - gridBlock.height * 0.12 },
-    { x: promoRightX, y: promoBlock.top + promoBlock.height * 0.14 },
-    { x: promoRightX, y: promoBlock.top + promoBlock.height * 0.72 },
-    { x: promoCenterX, y: promoInfo.top + promoInfo.height * 0.44 },
-    { x: ctaApproachX, y: cta.top - cta.height * 1.12 },
-    { x: cta.centerX, y: cta.top - cta.height * 0.42 },
+    { x: startX, y: startY },
+    { x: startBendX, y: startY + 34 },
+    { x: centerLane, y: heroSoftY },
+    { x: clampX((centerLane + topSweep) * 0.5, width, 24), y: heroExitY },
+    { x: topSweep, y: intro.top + intro.height * 0.06 },
+    { x: rightLane, y: intro.top + intro.height * 0.14 },
+    { x: rightLane, y: intro.top + intro.height * 0.28 },
+    { x: rightLane, y: intro.top + intro.height * 0.52 },
+    { x: centerLane, y: intro.centerY + intro.height * 0.16 },
+    { x: leftLane, y: intro.top + intro.height * 0.72 },
+    { x: leftOuter, y: intro.bottom - intro.height * 0.05 },
+    { x: leftLane, y: intro.bottom + intro.height * 0.08 },
+    { x: centerLane, y: intro.bottom + intro.height * 0.14 },
+    { x: centerLane, y: categoryBlock.top + categoryBlock.height * 0.14 },
+    { x: rightLane, y: categoryBlock.centerY - categoryBlock.height * 0.08 },
+    { x: centerLane, y: categoryBlock.bottom + categoryBlock.height * 0.1 },
+    { x: leftLane, y: promoBlock.top + promoBlock.height * 0.2 },
+    { x: rightLane, y: promoBlock.bottom - promoBlock.height * 0.12 },
+    { x: leftLane, y: editorialBlock.top + editorialBlock.height * 0.2 },
+    { x: rightLane, y: editorialBlock.centerY + editorialBlock.height * 0.12 },
+    { x: centerLane, y: customBlock.top + customBlock.height * 0.24 },
+    { x: leftLane, y: customBlock.bottom - customBlock.height * 0.1 },
+    { x: cta.centerX, y: cta.top - cta.height * 1.06 },
+    { x: cta.centerX, y: cta.top - cta.height * 0.02 },
     { x: cta.centerX, y: cta.centerY },
   ] satisfies Point[];
 }
@@ -156,16 +139,124 @@ function buildWaypoints() {
 export default function ThreadScene() {
   useEffect(() => {
     const svg = document.getElementById("golden-thread") as SVGSVGElement | null;
+    if (!svg) return;
+    let enabled = window.innerWidth >= 768;
+    if (!enabled) {
+      svg.style.display = "none";
+      return;
+    }
+    svg.style.display = "block";
     const path = document.getElementById("thread-path") as SVGPathElement | null;
     const highlight = document.getElementById("thread-highlight") as SVGPathElement | null;
     const ctaButton = document.getElementById("cta-button");
     const yarnOverlay = document.getElementById("yarn-overlay-img");
     const footer = document.querySelector("footer");
-    if (!svg || !path || !highlight || !ctaButton) return;
+    if (!path || !highlight || !ctaButton) return;
 
     let totalLength = 0;
     let running = true;
     let raf = 0;
+    let smoothedProgress = 0;
+    let targetProgress = 0;
+    let mobile = window.innerWidth <= 767;
+    let endLine = 1;
+    let syncTimer = 0;
+    let scrollRaf = 0;
+
+    const resetThread = () => {
+      smoothedProgress = 0;
+      targetProgress = 0;
+      path.style.strokeDashoffset = String(totalLength || 0);
+      highlight.style.strokeDashoffset = String(totalLength || 0);
+      path.style.opacity = "0";
+      highlight.style.opacity = "0";
+      ctaButton.style.setProperty("--thread-glow", "0");
+      ctaButton.classList.remove("thread-activated");
+    };
+
+    const paintThread = (progress: number) => {
+      if (!totalLength || progress <= 0.0005) {
+        resetThread();
+        return;
+      }
+
+      const easedProgress = 1 - Math.pow(1 - clamp(progress, 0, 1), 1.18);
+      const visibleLength = clamp(totalLength * easedProgress, 0, totalLength);
+      const offset = Math.max(0, totalLength - visibleLength);
+
+      path.style.strokeDashoffset = String(offset);
+      path.style.opacity = mobile ? "0.8" : "0.84";
+
+      if (!mobile) {
+        const tipLength = clamp(totalLength * 0.085, 72, 210);
+        highlight.style.strokeDasharray = `${tipLength} ${totalLength}`;
+        highlight.style.strokeDashoffset = String(offset);
+        highlight.style.opacity = String(0.18 + 0.16 * easedProgress);
+
+        const glowProgress = clamp((easedProgress - 0.84) / 0.16, 0, 1);
+        ctaButton.style.setProperty("--thread-glow", glowProgress.toFixed(4));
+        ctaButton.classList.toggle("thread-activated", glowProgress > 0.98);
+        return;
+      }
+
+      ctaButton.style.setProperty("--thread-glow", "0");
+      ctaButton.classList.remove("thread-activated");
+    };
+
+    const animateTowardsTarget = () => {
+      if (!running) return;
+      const smoothing = mobile ? 0.24 : 0.16;
+      smoothedProgress += (targetProgress - smoothedProgress) * smoothing;
+      const settleThreshold = mobile ? 0.0048 : 0.0012;
+      if (Math.abs(targetProgress - smoothedProgress) < settleThreshold) {
+        smoothedProgress = targetProgress;
+      }
+
+      const progressForPaint = mobile ? Math.round(smoothedProgress * 320) / 320 : smoothedProgress;
+      paintThread(progressForPaint);
+
+      if (Math.abs(targetProgress - smoothedProgress) >= settleThreshold) {
+        raf = requestAnimationFrame(animateTowardsTarget);
+        return;
+      }
+      raf = 0;
+    };
+
+    const ensureAnimation = () => {
+      if (raf !== 0) return;
+      raf = requestAnimationFrame(animateTowardsTarget);
+    };
+
+    const updateTargetFromScroll = (immediate = false) => {
+      const scrollY = window.scrollY;
+
+      if (scrollY <= 1 || !totalLength) {
+        targetProgress = 0;
+        if (yarnOverlay) yarnOverlay.style.transform = "rotate(0deg)";
+        if (immediate || mobile) {
+          smoothedProgress = targetProgress;
+          paintThread(smoothedProgress);
+          return;
+        }
+        ensureAnimation();
+        return;
+      }
+
+      targetProgress = clamp(scrollY / endLine, 0, 1);
+
+      if (yarnOverlay && !mobile) {
+        const speed = 0.85;
+        const rotation = (scrollY * speed).toFixed(2);
+        yarnOverlay.style.transform = `rotate(${rotation}deg)`;
+      }
+
+      if (immediate || mobile) {
+        smoothedProgress = targetProgress;
+        paintThread(smoothedProgress);
+        return;
+      }
+      ensureAnimation();
+    };
 
     const syncSizeAndPath = () => {
       const width = Math.max(document.documentElement.clientWidth, window.innerWidth);
@@ -187,88 +278,106 @@ export default function ThreadScene() {
 
       if (!d) {
         totalLength = 0;
+        resetThread();
         return;
       }
+
       totalLength = path.getTotalLength();
-      const mobile = window.innerWidth <= 767;
-      path.setAttribute("stroke-width", mobile ? "4.2" : "5.2");
+      mobile = window.innerWidth <= 767;
+      path.setAttribute("stroke-width", mobile ? "3.4" : "5.2");
       highlight.setAttribute("stroke-width", mobile ? "1.7" : "2.2");
-      const dash = `${totalLength} ${totalLength}`;
-      path.style.strokeDasharray = dash;
-      highlight.style.strokeDasharray = dash;
-    };
+      highlight.style.display = mobile ? "none" : "block";
+      path.style.strokeDasharray = `${totalLength} ${totalLength}`;
+      highlight.style.strokeDasharray = `${totalLength} ${totalLength}`;
 
-    const tick = () => {
-      if (!running) return;
       const cta = rectFor("cta-button");
-      const scrollY = window.scrollY;
+      endLine = cta ? Math.max(1, cta.top + cta.height * 0.32 - window.innerHeight * 0.66) : 1;
 
-      if (scrollY <= 1 || !totalLength || !cta) {
-        path.style.strokeDashoffset = String(totalLength || 0);
-        highlight.style.strokeDashoffset = String(totalLength || 0);
-        path.style.opacity = "0";
-        highlight.style.opacity = "0";
-        ctaButton.style.setProperty("--thread-glow", "0");
-        ctaButton.classList.remove("thread-activated");
-
-        if (yarnOverlay) {
-          yarnOverlay.style.transform = "rotate(0deg)";
-        }
-
-        raf = requestAnimationFrame(tick);
-        return;
-      }
-
-      if (totalLength && cta) {
-        const endLine = Math.max(1, cta.top + cta.height * 0.5 - window.innerHeight * 0.46);
-        const progress = clamp(scrollY / endLine, 0, 1);
-        const baseVisible = window.innerWidth <= 767 ? 12 : 20;
-        const visibleLength = clamp(baseVisible + (totalLength - baseVisible) * progress, 0, totalLength);
-        const offset = Math.max(0, totalLength - visibleLength);
-
-        path.style.strokeDashoffset = String(offset);
-        highlight.style.strokeDashoffset = String(offset);
-        path.style.opacity = "1";
-        highlight.style.opacity = "0.34";
-
-        const glowProgress = clamp((progress - 0.985) / 0.015, 0, 1);
-        ctaButton.style.setProperty("--thread-glow", glowProgress.toFixed(4));
-        ctaButton.classList.toggle("thread-activated", glowProgress > 0.98);
-      }
-
-      if (yarnOverlay) {
-        const rotation = (scrollY * 0.85).toFixed(2);
-        yarnOverlay.style.transform = `rotate(${rotation}deg)`;
-      }
-
-      raf = requestAnimationFrame(tick);
+      resetThread();
+      updateTargetFromScroll(true);
     };
 
     const scheduleSync = () => {
       cancelAnimationFrame(raf);
+      raf = 0;
       syncSizeAndPath();
-      raf = requestAnimationFrame(tick);
+    };
+
+    const scheduleSyncDebounced = () => {
+      if (syncTimer) window.clearTimeout(syncTimer);
+      syncTimer = window.setTimeout(
+        () => {
+          scheduleSync();
+        },
+        mobile ? 160 : 90
+      );
+    };
+
+    const handleScroll = () => {
+      if (!enabled) return;
+      if (!mobile) {
+        updateTargetFromScroll();
+        return;
+      }
+      if (scrollRaf) return;
+      scrollRaf = window.requestAnimationFrame(() => {
+        scrollRaf = 0;
+        updateTargetFromScroll(true);
+      });
+    };
+
+    const handleResize = () => {
+      const nextEnabled = window.innerWidth >= 768;
+      if (!nextEnabled) {
+        enabled = false;
+        svg.style.display = "none";
+        targetProgress = 0;
+        smoothedProgress = 0;
+        if (raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+        return;
+      }
+
+      if (!enabled && nextEnabled) {
+        enabled = true;
+        svg.style.display = "block";
+        scheduleSyncDebounced();
+        return;
+      }
+
+      if (mobile) return;
+      scheduleSyncDebounced();
     };
 
     scheduleSync();
-    const ro = new ResizeObserver(() => scheduleSync());
-    ro.observe(document.documentElement);
-    window.addEventListener("resize", scheduleSync, { passive: true });
-    window.addEventListener("orientationchange", scheduleSync, { passive: true });
-    window.addEventListener("load", scheduleSync, { passive: true });
-    window.addEventListener("pageshow", scheduleSync, { passive: true });
-    const t1 = window.setTimeout(scheduleSync, 120);
-    const t2 = window.setTimeout(scheduleSync, 420);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    const ro = mobile
+      ? null
+      : new ResizeObserver(() => {
+          scheduleSyncDebounced();
+        });
+    ro?.observe(document.documentElement);
+    window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("orientationchange", scheduleSyncDebounced, { passive: true });
+    window.addEventListener("load", scheduleSyncDebounced, { passive: true });
+    window.addEventListener("pageshow", scheduleSyncDebounced, { passive: true });
+    const t1 = window.setTimeout(scheduleSyncDebounced, 120);
+    const t2 = window.setTimeout(scheduleSyncDebounced, 420);
 
     return () => {
       running = false;
       clearTimeout(t1);
       clearTimeout(t2);
-      ro.disconnect();
-      window.removeEventListener("resize", scheduleSync);
-      window.removeEventListener("orientationchange", scheduleSync);
-      window.removeEventListener("load", scheduleSync);
-      window.removeEventListener("pageshow", scheduleSync);
+      if (syncTimer) window.clearTimeout(syncTimer);
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      ro?.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", scheduleSyncDebounced);
+      window.removeEventListener("load", scheduleSyncDebounced);
+      window.removeEventListener("pageshow", scheduleSyncDebounced);
       cancelAnimationFrame(raf);
     };
   }, []);
