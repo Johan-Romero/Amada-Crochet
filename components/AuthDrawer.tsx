@@ -40,6 +40,8 @@ const DRAWER_COPY = {
       "No pudimos generar el enlace de acceso en este dominio. Verifica la configuraci\u00f3n de URLs de autenticaci\u00f3n.",
     sendRateLimit:
       "Ya se enviaron varios correos en poco tiempo. Espera un momento e intenta de nuevo para evitar el bloqueo temporal.",
+    sendProviderError:
+      "El servicio de correo est\u00e1 presentando una falla temporal. Int\u00e9ntalo de nuevo en unos minutos.",
     sendOk: "Te enviamos un correo de acceso. Abre el bot\u00f3n del mensaje para entrar de forma segura a Amada Crochet.",
     saveError: "No fue posible guardar tus datos ahora mismo. Int\u00e9ntalo otra vez.",
     saveOkNew: "Tu perfil se guard\u00f3 correctamente.",
@@ -75,6 +77,7 @@ const DRAWER_COPY = {
     sendConfigError:
       "We could not generate the access link for this domain. Check your auth URL configuration.",
     sendRateLimit: "Too many access emails were requested. Please wait a moment and try again.",
+    sendProviderError: "The email service is temporarily failing. Please try again in a few minutes.",
     sendOk: "We sent your access email. Open the button in that message to securely enter Amada Crochet.",
     saveError: "We could not save your profile right now. Please try again.",
     saveOkNew: "Your profile was saved successfully.",
@@ -175,6 +178,15 @@ function isRedirectOrDomainError(errorMessage: string | undefined) {
   );
 }
 
+function isProviderFailure(errorMessage: string | undefined, statusCode: number | undefined) {
+  const normalized = errorMessage?.toLowerCase() ?? "";
+  return (
+    statusCode === 500 ||
+    normalized.includes("unexpected_failure") ||
+    normalized.includes("error sending magic link email")
+  );
+}
+
 function buildRedirectUrl() {
   const redirectUrl = new URL("/auth/confirm", window.location.origin);
   redirectUrl.searchParams.set("next", "/");
@@ -244,11 +256,12 @@ export default function AuthDrawer({ open, user, onClose, onUserUpdated }: AuthD
       setStatus("error");
       if (isRateLimitError(error.message)) {
         setMessage(copy.sendRateLimit);
+      } else if (isProviderFailure(error.message, error.status)) {
+        setMessage(copy.sendProviderError);
       } else if (isRedirectOrDomainError(error.message)) {
         setMessage(copy.sendConfigError);
       } else {
-        const reason = error.message ? ` (${error.message})` : "";
-        setMessage(`${copy.sendError}${reason}`);
+        setMessage(copy.sendError);
       }
       setSendingLink(false);
       return;
