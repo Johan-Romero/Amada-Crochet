@@ -2857,6 +2857,24 @@ input {
   border: 1px solid rgba(198, 157, 46, 0.16);
   background: rgba(255, 255, 255, 0.74);
   line-height: 1.55;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.58rem;
+}
+
+.login-note-icon {
+  flex: 0 0 auto;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 0.84rem;
+  font-weight: 800;
+  margin-top: 0.08rem;
+  line-height: 1;
+  background: rgba(124, 98, 56, 0.12);
+  color: #6c5127;
 }
 
 .login-note.is-success {
@@ -2865,10 +2883,20 @@ input {
   color: #325d3d;
 }
 
+.login-note.is-success .login-note-icon {
+  background: rgba(76, 151, 96, 0.16);
+  color: #2d6b3d;
+}
+
 .login-note.is-error {
   border-color: rgba(173, 68, 68, 0.22);
   background: rgba(253, 240, 240, 0.94);
   color: #7a3a34;
+}
+
+.login-note.is-error .login-note-icon {
+  background: rgba(173, 68, 68, 0.14);
+  color: #8f3a36;
 }
 
 .login-actions {

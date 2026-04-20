@@ -406,7 +406,12 @@ export default function AuthDrawer({ open, user, onClose, onUserUpdated }: AuthD
           )}
 
           {status !== "idle" ? (
-            <p className={`login-note ${status === "success" ? "is-success" : "is-error"}`}>{message}</p>
+            <div className={`login-note ${status === "success" ? "is-success" : "is-error"}`} role="status" aria-live="polite">
+              <span className="login-note-icon" aria-hidden="true">
+                {status === "success" ? "\u2713" : "!"}
+              </span>
+              <span>{message}</span>
+            </div>
           ) : null}
         </div>
       </aside>
