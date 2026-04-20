@@ -36,6 +36,8 @@ const DRAWER_COPY = {
     whatHappens: "\u00bfQu\u00e9 va a pasar?",
     whatHappensBody: "Recibir\u00e1s un correo de acceso. Si no lo ves en unos minutos, revisa promociones o spam.",
     sendError: "No pudimos enviar el correo de acceso. Revisa el email e int\u00e9ntalo nuevamente.",
+    sendConfigError:
+      "No pudimos generar el enlace de acceso en este dominio. Verifica la configuraci\u00f3n de URLs de autenticaci\u00f3n.",
     sendRateLimit:
       "Ya se enviaron varios correos en poco tiempo. Espera un momento e intenta de nuevo para evitar el bloqueo temporal.",
     sendOk: "Te enviamos un correo de acceso. Abre el bot\u00f3n del mensaje para entrar de forma segura a Amada Crochet.",
@@ -70,6 +72,8 @@ const DRAWER_COPY = {
     whatHappens: "What happens next?",
     whatHappensBody: "You will receive an access email. If you do not see it in a few minutes, check promotions or spam.",
     sendError: "We could not send the access email. Check the address and try again.",
+    sendConfigError:
+      "We could not generate the access link for this domain. Check your auth URL configuration.",
     sendRateLimit: "Too many access emails were requested. Please wait a moment and try again.",
     sendOk: "We sent your access email. Open the button in that message to securely enter Amada Crochet.",
     saveError: "We could not save your profile right now. Please try again.",
@@ -160,6 +164,23 @@ function isRateLimitError(errorMessage: string | undefined) {
   return normalized.includes("rate") || normalized.includes("too many") || normalized.includes("retry");
 }
 
+function isRedirectOrDomainError(errorMessage: string | undefined) {
+  if (!errorMessage) return false;
+  const normalized = errorMessage.toLowerCase();
+  return (
+    normalized.includes("redirect") ||
+    normalized.includes("site url") ||
+    normalized.includes("invalid url") ||
+    normalized.includes("domain")
+  );
+}
+
+function buildRedirectUrl() {
+  const redirectUrl = new URL("/auth/confirm", window.location.origin);
+  redirectUrl.searchParams.set("next", "/");
+  return redirectUrl.toString();
+}
+
 export default function AuthDrawer({ open, user, onClose, onUserUpdated }: AuthDrawerProps) {
   const supabase = useMemo(() => createClient(), []);
   const { locale } = useAppPreferences();
@@ -195,20 +216,40 @@ export default function AuthDrawer({ open, user, onClose, onUserUpdated }: AuthD
     setStatus("idle");
     setMessage("");
 
-    const redirectUrl = new URL("/auth/confirm", process.env.NEXT_PUBLIC_SITE_URL ?? window.location.origin);
-    redirectUrl.searchParams.set("next", "/");
+    let redirectTo: string;
+    try {
+      redirectTo = buildRedirectUrl();
+    } catch {
+      setStatus("error");
+      setMessage(copy.sendConfigError);
+      setSendingLink(false);
+      return;
+    }
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: redirectUrl.toString(),
+        emailRedirectTo: redirectTo,
         shouldCreateUser: true,
       },
     });
 
     if (error) {
+      console.error("[Amada Auth] signInWithOtp error", {
+        message: error.message,
+        name: error.name,
+        status: error.status,
+        code: error.code,
+      });
       setStatus("error");
-      setMessage(isRateLimitError(error.message) ? copy.sendRateLimit : copy.sendError);
+      if (isRateLimitError(error.message)) {
+        setMessage(copy.sendRateLimit);
+      } else if (isRedirectOrDomainError(error.message)) {
+        setMessage(copy.sendConfigError);
+      } else {
+        const reason = error.message ? ` (${error.message})` : "";
+        setMessage(`${copy.sendError}${reason}`);
+      }
       setSendingLink(false);
       return;
     }
